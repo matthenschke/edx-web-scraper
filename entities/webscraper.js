@@ -10,8 +10,13 @@ class WebScraper {
     return WebScraper.instance;
   }
   async scrape(url) {
-    const { data } = await this.http.get(url);
-    return this.cheerio.load(data);
+    try {
+      const { data } = await this.http.get(url);
+      return this.cheerio.load(data);
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
   }
 }
 const instance = new WebScraper();
