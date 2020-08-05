@@ -1,10 +1,10 @@
 const webscraper = require("./entities/webscraper");
 require("dotenv").config();
 
-// middleware functions for our endpoints
+// util functions for our endpoints
 module.exports = {
   getCourseSubjectUrls: async () => {
-    const $ = await webscraper.scrape(`${process.env.URL}/sitemap`);
+    const $ = await webscraper.scrape(`${process.env.BASE_URL}/sitemap`);
     return $(".multi-col-list")
       .first()
       .find(".views-row")
@@ -17,7 +17,7 @@ module.exports = {
   },
   getCourseUrls: async (url) => {
     try {
-      const $ = await webscraper.scrape(process.env.URL + url);
+      const $ = await webscraper.scrape(process.env.BASE_URL + url);
       return $(".discovery-card")
         .toArray()
         .map(function (x) {
@@ -27,5 +27,12 @@ module.exports = {
       return [];
     }
   },
-  getCourseInfo: async () => {},
+  getCourseInfo: async (url) => {
+    try {
+      const $ = await webscraper.scrape(process.env.BASE_URL + url);
+      console.log($(".course-intro-heading").text());
+    } catch (err) {
+      return [];
+    }
+  },
 };

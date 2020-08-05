@@ -3,25 +3,23 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 const webscraper = require("./entities/webscraper"); // entities
-const { getCourseSubjectUrls, getCourseUrls } = require("./utils");
+const {
+  getCourseSubjectUrls,
+  getCourseUrls,
+  getCourseInfo,
+} = require("./utils");
 
 // routes
 
 // main route to get each and every course and insert into sqlite table
 app.post("/", async (req, res) => {
-  try {
-    const subjectUrls = await getCourseSubjectUrls();
-    subjectUrls.forEach(async (url) => {
-      try {
-        const courseUrls = await getCourseUrls(url);
-        console.table(courseUrls);
-      } catch (err) {
-        console.log(err);
-      }
+  const subjectUrls = await getCourseSubjectUrls();
+  subjectUrls.forEach(async (url) => {
+    const courseUrls = await getCourseUrls(url);
+    courseUrls.forEach((courseUrl) => {
+      const courseInfo = getCourseInfo(courseUrl);
     });
-  } catch (err) {
-    console.log(err);
-  }
+  });
 });
 
 app.listen(PORT, () => {

@@ -14,7 +14,6 @@ class WebScraper {
       const { data } = await this.http.get(url);
       return this.cheerio.load(data);
     } catch (err) {
-      console.log(err);
       return null;
     }
   }
