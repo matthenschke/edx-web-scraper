@@ -56,7 +56,27 @@ module.exports = {
           }
         }
       });
-      console.log(courseInfo);
+      // get session
+      let sessionStr = $(".enroll-btn small").text();
+      if (sessionStr == "") courseInfo["session"] = null;
+      else {
+        let sessionStrParts = sessionStr.split(" ");
+        let date;
+        sessionStrParts.shift();
+        if (sessionStrParts instanceof Array) date = sessionStrParts.join(" ");
+        else date = sessionStrParts;
+        courseInfo["session"] = new Date(date);
+      }
+
+      // overview
+      courseInfo["overview"] = $(".course-intro-lead-in p").text();
+
+      // instructors
+      const instructors = [];
+      $(".instructor-list .instructor").each(function (i, el) {
+        instructors.push($(el).find(".name").text());
+      });
+      courseInfo["instructors"] = instructors;
       return courseInfo;
     } catch (err) {
       return {};

@@ -16,7 +16,8 @@ async function main() {
     const courseUrls = await getCourseUrls(subjectUrl);
     for (let j = 0; j < 10; j++) {
       const courseUrl = courseUrls[j];
-      const courseInfo = getCourseInfo(courseUrl);
+      const courseInfo = await getCourseInfo(courseUrl);
+      console.log(courseInfo);
     }
   }
   // subjectUrls.forEach(async (url) => {
