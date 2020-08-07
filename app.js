@@ -24,7 +24,16 @@ async function main() {
 }
 
 function get() {
-  console.log(CourseModel.getCourses());
+  let results = [];
+  CourseModel.getCourses()
+    .then((rows) => {
+      rows.forEach((row) => {
+        if (!isNaN(parseFloat(row.price))) row.price = parseFloat(row.price);
+        row.instructors = row.instructors.split(",");
+        results.push(row);
+      });
+    })
+    .catch((err) => console.err(err));
 }
 
 get();

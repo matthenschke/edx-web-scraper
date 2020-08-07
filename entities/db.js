@@ -29,16 +29,16 @@ class DB {
   }
 
   all(sql, params = []) {
-    let results;
-    this.db.all(sql, params, function (err, rows) {
-      if (err) {
-        console.log("failed query on " + sql);
-        console.log(err);
-        throw err;
-      }
-      return rows;
+    return new Promise((resolve, reject) => {
+      this.db.all(sql, params, function (err, rows) {
+        if (err) {
+          console.log("failed query on " + sql);
+          console.log(err);
+          reject(err);
+        }
+        resolve(rows);
+      });
     });
-    return results;
   }
 
   close() {

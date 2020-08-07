@@ -20,7 +20,7 @@ class CourseModel {
     ]);
   }
 
-  getCourses() {
+  async getCourses() {
     let sql = "SELECT * FROM Courses";
     return this.db.all(sql);
   }
