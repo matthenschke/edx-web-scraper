@@ -10,5 +10,6 @@
 # production
 /build
 
-# .sqbpro
-*.db.sqbpro
+# sqlite files
+*.sqbpro
+*.db-journal
