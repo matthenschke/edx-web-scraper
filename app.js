@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-const webscraper = require("./entities/webscraper"); // entities
+const sqlite = require("./entities/sqlite"); // entities
 const {
   getCourseSubjectUrls,
   getCourseUrls,
@@ -16,8 +16,8 @@ async function main() {
     const courseUrls = await getCourseUrls(subjectUrl);
     for (let j = 0; j < 10; j++) {
       const courseUrl = courseUrls[j];
-      const courseInfo = await getCourseInfo(courseUrl);
-      console.log(courseInfo);
+      const course = await getCourseInfo(courseUrl);
+      sqlite.insert(course);
     }
   }
   // subjectUrls.forEach(async (url) => {

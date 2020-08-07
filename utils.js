@@ -40,13 +40,13 @@ module.exports = {
           } else if (key === "price") {
             if (value.startsWith("$")) {
               courseInfo[key] = Number(value.substring(1).split(" ")[0]);
-              courseInfo["certPrice"] = null;
+              courseInfo["cert_price"] = null;
             } else {
               courseInfo[key] = value.substring(0, 4);
               let certificateStr = value.substring(4);
               if (certificateStr.startsWith("Add")) {
                 let startIdx = certificateStr.indexOf("$");
-                courseInfo["certPrice"] = Number(
+                courseInfo["cert_price"] = Number(
                   certificateStr.substring(startIdx + 1).split(" ")[0]
                 );
               }
