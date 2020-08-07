@@ -58,18 +58,22 @@ module.exports = {
       });
       // get session
       let sessionStr = $(".enroll-btn small").text();
-      if (sessionStr == "") courseInfo["session"] = null;
-      else {
-        let sessionStrParts = sessionStr.split(" ");
-        let date;
-        sessionStrParts.shift();
-        if (sessionStrParts instanceof Array) date = sessionStrParts.join(" ");
-        else date = sessionStrParts;
-        courseInfo["session"] = new Date(date);
+      if (sessionStr) {
+        if (sessionStr == "") courseInfo["session"] = null;
+        else {
+          let sessionStrParts = sessionStr.split(" ");
+          let date;
+          sessionStrParts.shift();
+          if (sessionStrParts instanceof Array)
+            date = sessionStrParts.join(" ");
+          else date = sessionStrParts;
+          courseInfo["session"] = date;
+        }
       }
 
       // overview
-      courseInfo["overview"] = $(".course-intro-lead-in p").text();
+      const overviewStr = $(".course-intro-lead-in p").text();
+      if (overviewStr) courseInfo["overview"] = overviewStr;
 
       // instructors
       const instructors = [];
