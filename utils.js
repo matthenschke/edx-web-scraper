@@ -52,7 +52,8 @@ module.exports = {
               }
             }
           } else {
-            courseInfo[key] = value;
+            if (key === "language" && courseInfo[key] === "English")
+              courseInfo[key] = value;
           }
         }
       });

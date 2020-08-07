@@ -9,21 +9,24 @@ const {
   getCourseInfo,
 } = require("./utils");
 
-async function main() {
-  const subjectUrls = await getCourseSubjectUrls();
-  for (let i = 0; i < 100; i++) {
-    const subjectUrl = subjectUrls[i];
-    const courseUrls = await getCourseUrls(subjectUrl);
-    courseUrls.forEach(async (courseUrl) => {
-      const course = await getCourseInfo(courseUrl);
-      CourseModel.insertCourse(course);
-    });
-  }
+app.post("/", (req, res) => {
+  getCourseSubjectUrls().then(urls => {
+    for (let i = 0; i < 100; i++) {
+      const subjectUrl = urls[i];
+      const courseUrls = await getCourseUrls(subjectUrl);
+      courseUrls.forEach(async (courseUrl) => {
+        const course = await getCourseInfo(courseUrl);
+        CourseModel.insertCourse(course);
+      });   
+    }
+    res.json({msg :"completed webscraping"})
+  }).catch(err => {
+    res.status(500).json({err : err.code});
+  }) 
+});
 
-  console.log("end");
-}
 
-function get() {
+app.get("/", (req, res) => {
   let results = [];
   CourseModel.getCourses()
     .then((rows) => {
@@ -32,32 +35,13 @@ function get() {
         row.instructors = row.instructors.split(",");
         results.push(row);
       });
+      res.json(results);
     })
-    .catch((err) => console.err(err));
-}
+    .catch((err) => {
+      res.status(500).json({ error: err.code });
+    });
+});
 
-get();
-
-// main();
-
-// main route to get each and every course and insert into sqlite table
-// app.post("/", async (req, res) => {
-//   const subjectUrls = await getCourseSubjectUrls();
-//   subjectUrls.forEach(async (url) => {
-//     const courseUrls = await getCourseUrls(url);
-//     courseUrls.forEach((courseUrl) => {
-//       const courseInfo = getCourseInfo(courseUrl);
-//     });
-//   });
-//   res.json({ msg: "webscraping is complete!" });
-// });
-
-// app.listen(PORT, () => {
-//   console.log(`We are a go at port:${PORT}`);
-// });
-
-// subjectUrls.forEach(async (url) => {
-//   courseUrls.forEach((courseUrl) => {
-//     const courseInfo = getCourseInfo(courseUrl);
-//   });
-// });
+app.listen(PORT, () => {
+  console.log(`We are a go at port:${PORT}`);
+});
