@@ -3,29 +3,8 @@ require("dotenv").config();
 
 // util functions for our endpoints
 module.exports = {
-  getCourseSubjectUrls: async () => {
-    const $ = await webscraper.scrape(`${process.env.BASE_URL}/sitemap`);
-    return $(".multi-col-list")
-      .first()
-      .find(".views-row")
-      .toArray()
-      .map(function (el) {
-        return $(el).find("a").attr("href");
-      })
-      .slice(0, 100);
-  },
-  getCourseUrls: async (url) => {
-    try {
-      const $ = await webscraper.scrape(process.env.BASE_URL + url);
-      return $(".discovery-card")
-        .toArray()
-        .map(function (el) {
-          return $(el).find(".discovery-card-link").attr("href");
-        });
-    } catch (err) {
-      return [];
-    }
-  },
+  getCourseSubjectUrls: async () => {},
+  getCourseUrls: async (url) => {},
   getCourseInfo: async (url) => {
     const courseAttrs = new Set(["price", "length", "language"]);
     try {
