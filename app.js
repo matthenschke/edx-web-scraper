@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8000;
+require("dotenv").config();
 
 const CourseModel = require("./entities/course_model");
 const {
