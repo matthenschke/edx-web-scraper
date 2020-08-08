@@ -5,7 +5,9 @@ class CourseModel {
 
   insertCourse(course) {
     // check if course is valid if it has the 7 required keys
-    if (Object.keys(course).length !== 7) return;
+    if (Object.keys(course).length !== 7) {
+      return;
+    }
 
     let sql =
       "INSERT INTO Courses (overview, length, price, cert_price, language, session, instructors) VALUES (?, ?, ?, ?, ?, ?, ?)";

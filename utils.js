@@ -11,7 +11,8 @@ module.exports = {
       .toArray()
       .map(function (el) {
         return $(el).find("a").attr("href");
-      });
+      })
+      .slice(0, 100);
   },
   getCourseUrls: async (url) => {
     try {
@@ -51,10 +52,8 @@ module.exports = {
                 );
               }
             }
-          } else {
-            if (key === "language" && courseInfo[key] === "English")
-              courseInfo[key] = value;
-          }
+          } else if (key === "language" && value === "English")
+            courseInfo[key] = value;
         }
       });
       // get session

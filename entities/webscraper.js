@@ -9,7 +9,7 @@ class WebScraper {
     }
     return WebScraper.instance;
   }
-  async scrape(url) {
+  async load(url) {
     try {
       const { data } = await this.http.get(url);
       return this.cheerio.load(data);
