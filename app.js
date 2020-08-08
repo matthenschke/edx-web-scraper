@@ -3,21 +3,17 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 require("dotenv").config();
 
-const CourseModel = require("./entities/course_model");
-const {
-  getCourseSubjectUrls,
-  getCourseUrls,
-  getCourseInfo,
-} = require("./utils");
+const courseModel = require("./entities/course_model");
+const webscraper = require("./entities/webscraper");
 
 app.post("/", async (req, res) => {
   try {
-    let subjectUrls = await getCourseSubjectUrls();
+    let subjectUrls = await webscraper.getCourseSubjectUrls();
     subjectUrls.forEach(async (url) => {
-      const courseUrls = await getCourseUrls(url);
+      const courseUrls = await webscraper.getCourseUrls(url);
       courseUrls.forEach(async (courseUrl) => {
-        const course = await getCourseInfo(courseUrl);
-        CourseModel.insertCourse(course);
+        const course = await webscraper.getCourseInfo(courseUrl);
+        courseModel.insertCourse(course);
       });
     });
     res.json({ msg: "webscraping underway" });
@@ -28,7 +24,8 @@ app.post("/", async (req, res) => {
 
 app.get("/", (req, res) => {
   let results = [];
-  CourseModel.getCourses()
+  courseModel
+    .getCourses()
     .then((rows) => {
       rows.forEach((row) => {
         if (!isNaN(parseFloat(row.price))) row.price = parseFloat(row.price);

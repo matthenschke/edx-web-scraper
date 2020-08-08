@@ -5,7 +5,7 @@ const {
   getOverview,
   getSession,
   getInstructors,
-} = require("../utils");
+} = require("../util/webscraper");
 class WebScraper {
   constructor() {
     if (!WebScraper.instance) {
