@@ -1,10 +1,10 @@
 // web scraper class to get edx course data
 const {
-  setCourseTitle,
-  setSideBarAttrs,
-  setOverview,
-  setSession,
-  setInstructors,
+  getCourseTitle,
+  getSideBarAttrs,
+  getOverview,
+  getSession,
+  getInstructors,
 } = require("../utils");
 class WebScraper {
   constructor() {
@@ -42,11 +42,11 @@ class WebScraper {
     try {
       const $ = await this.cheerio.load(process.env.BASE_URL + courseUrl);
       let courseInfo = {};
-      setCourseTitle($, courseInfo);
-      setSideBarAttrs($, courseInfo);
-      setSession($, courseInfo);
-      setOverview($, courseInfo);
-      setInstructors($, courseInfo);
+      getCourseTitle($, courseInfo);
+      getSideBarAttrs($, courseInfo);
+      getSession($, courseInfo);
+      getOverview($, courseInfo);
+      getInstructors($, courseInfo);
       return courseInfo;
     } catch (err) {
       return {};

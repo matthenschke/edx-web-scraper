@@ -1,5 +1,5 @@
 module.exports = {
-  setSideBarAttrs: ($, courseInfo) => {
+  getSideBarAttrs: ($, courseInfo) => {
     const courseAttrs = new Set(["price", "length", "language"]);
     $(".updated-sidebar ul li").each(function (i, el) {
       let line = $(el).text().split(":");
@@ -27,10 +27,10 @@ module.exports = {
       }
     });
   },
-  setCourseTitle: ($, courseInfo) => {
+  getCourseTitle: ($, courseInfo) => {
     courseInfo.title = $(".course-intro-heading").text();
   },
-  setSession: ($, courseInfo) => {
+  getSession: ($, courseInfo) => {
     let sessionStr = $(".enroll-btn small").text();
     if (sessionStr) {
       if (sessionStr == "") courseInfo["session"] = null;
@@ -45,12 +45,12 @@ module.exports = {
     }
   },
 
-  setOverview: ($, courseInfo) => {
+  getOverview: ($, courseInfo) => {
     const overviewStr = $(".course-intro-lead-in p").text();
     if (overviewStr) courseInfo["overview"] = overviewStr;
   },
 
-  setInstructors: ($, courseInfo) => {
+  getInstructors: ($, courseInfo) => {
     const instructors = [];
     $(".instructor-list .instructor").each(function (i, el) {
       instructors.push($(el).find(".name").text());
