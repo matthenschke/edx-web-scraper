@@ -10,7 +10,7 @@ class CourseModel {
     }
 
     let sql =
-      "INSERT INTO Courses (title, overview, length, price, cert_price, language, session, instructors) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      "INSERT or IGNORE INTO Courses (title, overview, length, price, cert_price, language, session, instructors) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     this.db.run(sql, [
       course.title,
       course.overview,
