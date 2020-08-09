@@ -11,8 +11,8 @@ class Cheerio {
   }
   async load(url) {
     try {
-      const { data } = await this.http.get(url);
-      return this.cheerio.load(data);
+      const res = await this.http.get(url);
+      return this.cheerio.load(res.data);
     } catch (err) {
       return null;
     }

@@ -7,19 +7,25 @@ const courseModel = require("./entities/course_model");
 const webscraper = require("./entities/webscraper");
 
 app.post("/", async (req, res) => {
-  try {
-    let subjectUrls = await webscraper.getCourseSubjectUrls();
-    subjectUrls.forEach(async (url) => {
-      const courseUrls = await webscraper.getCourseUrls(url);
-      courseUrls.forEach(async (courseUrl) => {
-        const course = await webscraper.getCourseInfo(courseUrl);
-        courseModel.insertCourse(course);
+  webscraper
+    .getCourseSubjectUrls()
+    .then(async (subjectUrls) => {
+      subjectUrls.forEach(async (url) => {
+        if (url.startsWith("/learn")) {
+          const courseUrls = await webscraper.getCourseUrls(url);
+          if (courseUrls) {
+            courseUrls.forEach(async (courseUrl) => {
+              const course = await webscraper.getCourseInfo(courseUrl);
+              courseModel.insertCourse(course);
+            });
+          }
+        }
       });
+      res.json({ msg: "webscraping underway!" });
+    })
+    .catch((err) => {
+      res.status(500).json({ err: err.code });
     });
-    res.json({ msg: "webscraping underway" });
-  } catch (err) {
-    res.status(500).json({ err: err.code });
-  }
 });
 
 app.get("/", (req, res) => {

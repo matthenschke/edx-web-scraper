@@ -16,24 +16,33 @@ class WebScraper {
     return WebScraper.instance;
   }
   async getCourseSubjectUrls() {
-    const $ = await this.cheerio.load(`${process.env.BASE_URL}/sitemap`);
-    return $(".multi-col-list")
-      .first()
-      .find(".views-row")
-      .toArray()
-      .map(function (el) {
-        return $(el).find("a").attr("href");
-      })
-      .slice(0, 100);
+    try {
+      const $ = await this.cheerio.load(`${process.env.BASE_URL}/sitemap`);
+      return $(".multi-col-list")
+        .first()
+        .find(".views-row")
+        .toArray()
+        .map(function (el) {
+          return $(el).find("a").attr("href");
+        })
+        .slice(0, 200);
+    } catch (err) {
+      return [];
+    }
   }
   async getCourseUrls(subjectUrl) {
     try {
       const $ = await this.cheerio.load(process.env.BASE_URL + subjectUrl);
-      return $(".discovery-card")
-        .toArray()
-        .map(function (el) {
-          return $(el).find(".discovery-card-link").attr("href");
-        });
+      return [
+        ...$(".discovery-card")
+          .toArray()
+          .filter(function (el) {
+            return $(el).find(".card-type span").text() === "Course";
+          })
+          .map(function (el) {
+            return $(el).find(".discovery-card-link").attr("href");
+          }),
+      ];
     } catch (err) {
       return [];
     }

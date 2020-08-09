@@ -9,7 +9,6 @@ class DB {
           if (err) {
             console.log(err.message);
           }
-          console.log("connected");
         }
       );
       DB.instance = this;
@@ -24,7 +23,6 @@ class DB {
         console.log(err);
         throw err;
       }
-      console.log("query completed");
     });
   }
 
