@@ -42,6 +42,8 @@ module.exports = {
         else date = sessionStrParts;
         courseInfo["session"] = date;
       }
+    } else {
+      courseInfo["session"] = null;
     }
   },
 

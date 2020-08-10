@@ -23,6 +23,7 @@ class DB {
         console.log(err);
         throw err;
       }
+      console.log("query");
     });
   }
 

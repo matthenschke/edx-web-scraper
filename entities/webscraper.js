@@ -25,7 +25,7 @@ class WebScraper {
         .map(function (el) {
           return $(el).find("a").attr("href");
         })
-        .slice(0, 200);
+        .slice(0, 100);
     } catch (err) {
       return [];
     }
